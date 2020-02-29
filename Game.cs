@@ -12,14 +12,11 @@ namespace TextGame
         {
             while(true) {
                 Frame.Do(TitleScreen.Play);
-
                 _character = Frame.Do(CharacterInfo.GatherCharacterInfo);
 
                 StepInfo step = null;
                 while(_character != null)
                 {
-                    
-
                     step = Frame.Do(() => EvaluateStep(step));
                     if (step.Died) {
                         _character = null;
@@ -28,9 +25,16 @@ namespace TextGame
             }
         }
 
+        private static void WriteLine(string text, ConsoleColor color = ConsoleColor.Gray) 
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(text);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
         static StepInfo EvaluateStep(StepInfo step) {
             if(step == null) {
-                var nextStep = new Campaign().GetFirstStep();
+                var nextStep = new Campaign().Play(_character);
                 return HandleStep(nextStep);
             }
 
@@ -49,26 +53,31 @@ namespace TextGame
         }
 
         public static string PromptUntilValidInput(StepInfo step) {
-            Console.WriteLine($"{step.Message}\n");
+            
+            WriteLine($"{step.Message}\n", ConsoleColor.Yellow);
 
             string input = null;
             bool validInput = false;
             while(string.IsNullOrEmpty(input) || !validInput) {
                 input = Prompt(step.Prompt);
                 if(input.Trim() == "?") {
-                    Console.WriteLine(string.IsNullOrEmpty(step.Hint) 
-                        ? "There are no clues here." 
-                        : step.Hint);
+                    PrintHelpText();
+                    continue;
                 }
-                if(input.Trim() == "repeat") {
-                    Console.WriteLine(string.IsNullOrEmpty(step.Hint) 
-                        ? "There are no clues here." 
-                        : step.Hint);
+                if(input.Trim() == "hint") {
+                    WriteLine(string.IsNullOrEmpty(step.Hint) ? "There are no clues here." : step.Hint,
+                        ConsoleColor.Green);
+                    continue;
                 }
                 validInput = step.ValidateInput(input);
             }
-            Console.WriteLine("\n");
+            WriteLine("\n");
             return input;
+        }
+
+        private static void PrintHelpText()
+        {
+            Console.WriteLine("Help text coming soon...", ConsoleColor.Green);
         }
 
         public static StepInfo HandleStep(StepInfo step) {
@@ -85,8 +94,17 @@ namespace TextGame
         }
 
         private static string Prompt(string prompt){
-            Console.Write($"{prompt}\n > ");
+            WriteLine(prompt, ConsoleColor.Green);
+            Console.Write(" > ");
             return Console.ReadLine();
         }
+    }
+
+    public enum CharacterAction 
+    {
+        Examine,
+        Search,
+        Grab,
+        Go
     }
 }

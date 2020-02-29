@@ -2,6 +2,6 @@ namespace TextGame.Flow
 {
     public interface ICampaign 
     {
-        StepInfo GetFirstStep();
+        StepInfo Play(CharacterInfo character);
     }
 }
