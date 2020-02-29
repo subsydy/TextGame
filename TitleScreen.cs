@@ -23,7 +23,7 @@ What about you? Are you here to build or destroy?
         {
             Console.WriteLine(Title);
             Console.WriteLine(Introduction);
-            Console.WriteLine("<< PRESS ANY KEY >>\n\n");
+            Console.WriteLine("<< PRESS ANY KEY >>");
             Console.ReadLine();
         }
     }

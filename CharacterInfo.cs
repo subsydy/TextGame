@@ -23,7 +23,6 @@ namespace TextGame {
             var role = Game.PromptUntilValidInput("What is your goal?", arg => goalInputMap.ContainsKey(arg), GetGoalHint());
             Console.WriteLine($"You wouldn't be the first. I hope you're good at it.");
             
-            Console.WriteLine("-------------------------------------------------------\n");
             return new CharacterInfo(name, goalInputMap[role]);
         }
 

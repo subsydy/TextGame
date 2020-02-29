@@ -8,14 +8,14 @@ namespace TextGame
 
         static void Main(string[] args)
         {
-            TitleScreen.Play();
+            Frame.Do(TitleScreen.Play);
 
             string input = null;
             StepInfo step = null;
             while(true) 
             {
                 if(_character == null) {
-                    _character = CharacterInfo.GatherCharacterInfo();
+                    _character = Frame.Do(CharacterInfo.GatherCharacterInfo);
                 }
 
                 step = NextStep(step, input);
@@ -66,6 +66,7 @@ namespace TextGame
 
             return StepInfo.Die(message: "Rock falls, you die.");
         }
+
     }
 
     class StepInfo {
