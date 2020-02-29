@@ -1,6 +1,6 @@
 using System;
 
-namespace TextGame {
+namespace TextGame.Flow {
     public class Frame{
 
         public static void Do(Action action) { 

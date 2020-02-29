@@ -1,6 +1,6 @@
 using System;
 
-namespace TextGame 
+namespace TextGame.Flow
 {
     class StepInfo {
         public string Prompt { get; protected set; }

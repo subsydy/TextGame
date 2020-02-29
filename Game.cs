@@ -1,4 +1,5 @@
 ﻿using System;
+using TextGame.Flow;
 
 namespace TextGame
 {
@@ -23,7 +24,8 @@ namespace TextGame
 
         static StepInfo EvaluateStep(StepInfo step) {
             if(step == null) {
-                return HandleStep(StepInfo.Continue("You're new here.", "What would you like to do?"));
+                var nextStep = StepInfo.Continue(prompt: "You're new here.", message: "What would you like to do?");
+                return HandleStep(nextStep);
             }
 
             if(!string.IsNullOrEmpty(step.Message)) 
@@ -41,11 +43,18 @@ namespace TextGame
         }
 
         public static string PromptUntilValidInput(StepInfo step) {
+            Console.WriteLine($"{step.Message}\n");
+
             string input = null;
             bool validInput = false;
             while(string.IsNullOrEmpty(input) || !validInput) {
                 input = Prompt(step.Prompt);
                 if(input.Trim() == "?") {
+                    Console.WriteLine(string.IsNullOrEmpty(step.Hint) 
+                        ? "There are no clues here." 
+                        : step.Hint);
+                }
+                if(input.Trim() == "repeat") {
                     Console.WriteLine(string.IsNullOrEmpty(step.Hint) 
                         ? "There are no clues here." 
                         : step.Hint);
@@ -65,7 +74,7 @@ namespace TextGame
         public static Tuple<StepInfo, TOutput> HandleStep<TOutput>(StepInfo step, Func<string, TOutput> transform) {
             var response = PromptUntilValidInput(step);
             var nextStep = step.NextStep(response);
-            var output = transform(response);
+            var output   = transform(response);
             return Tuple.Create(nextStep, output);
         }
 

@@ -1,4 +1,5 @@
 using System;
+using TextGame.Flow;
 
 namespace TextGame {
     public class CharacterInfo
