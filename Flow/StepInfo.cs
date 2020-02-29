@@ -2,7 +2,7 @@ using System;
 
 namespace TextGame.Flow
 {
-    class StepInfo {
+    public class StepInfo {
         public string Prompt { get; protected set; }
         public bool Died { get; protected set; }
         public string Message { get; protected set; }

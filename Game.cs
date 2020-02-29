@@ -1,5 +1,6 @@
 ﻿using System;
 using TextGame.Flow;
+using TextGame.Campaigns;
 
 namespace TextGame
 {
@@ -29,7 +30,7 @@ namespace TextGame
 
         static StepInfo EvaluateStep(StepInfo step) {
             if(step == null) {
-                var nextStep = StepInfo.Continue(message: "You're new here.", prompt: "What would you like to do?");
+                var nextStep = new Campaign().GetFirstStep();
                 return HandleStep(nextStep);
             }
 
