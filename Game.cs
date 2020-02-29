@@ -9,22 +9,27 @@ namespace TextGame
 
         static void Main(string[] args)
         {
-            Frame.Do(TitleScreen.Play);
+            while(true) {
+                Frame.Do(TitleScreen.Play);
 
-            StepInfo step = null;
-            while(true) 
-            {
-                if(_character == null) {
-                    _character = Frame.Do(CharacterInfo.GatherCharacterInfo);
+                _character = Frame.Do(CharacterInfo.GatherCharacterInfo);
+
+                StepInfo step = null;
+                while(_character != null)
+                {
+                    
+
+                    step = Frame.Do(() => EvaluateStep(step));
+                    if (step.Died) {
+                        _character = null;
+                    }
                 }
-
-                step = Frame.Do(() => EvaluateStep(step));
             }
         }
 
         static StepInfo EvaluateStep(StepInfo step) {
             if(step == null) {
-                var nextStep = StepInfo.Continue(prompt: "You're new here.", message: "What would you like to do?");
+                var nextStep = StepInfo.Continue(message: "You're new here.", prompt: "What would you like to do?");
                 return HandleStep(nextStep);
             }
 

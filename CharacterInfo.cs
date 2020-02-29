@@ -9,7 +9,8 @@ namespace TextGame {
         public static CharacterInfo GatherCharacterInfo()
         {
             Func<string, bool> emptyTest = str => !string.IsNullOrEmpty(str);
-            (var step, var name) = Game.HandleStep(StepInfo.Continue(prompt: "What is your name?", validate: emptyTest), arg => arg);
+            var nameStep = StepInfo.Continue(message: "What about you? Who are you? Why are you here?", prompt: "What is your name?", validate: emptyTest);
+            (var step, var name) = Game.HandleStep(nameStep, arg => arg);
             Console.WriteLine($"Welcome, {name}!");
             
             return new CharacterInfo
