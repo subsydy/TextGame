@@ -13,8 +13,10 @@ Your name is {character.Name}... you don't remember how you got here.";
 
             var firstStep = Cutscene.Play(message: introMessage, andThen: FirstQuestion());
 
+            var startingLocation = Area.Named("a small cell").WithItem(Item.Named("body")); 
+
             character.AddDebuff("head wound");
-            character.SetLocation(Area.Named("a small cell").WithItem("body"));
+            character.SetLocation(startingLocation);
 
             return firstStep;
         }

@@ -14,12 +14,9 @@ namespace TextGame {
         {
             Func<string, bool> emptyTest = str => !string.IsNullOrEmpty(str);
             var nameStep = Question.Continue(prompt: "What is your name?", validate: emptyTest);
-            (var step, var name) = Game.HandleStep(nameStep, arg => arg);
+            (var step, var name) = nameStep.HandleStep(arg => arg);
             
-            return new CharacterInfo
-            {
-                Name = name
-            };
+            return new CharacterInfo { Name = name };
         }
 
         internal void SetLocation(Area location) 

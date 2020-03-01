@@ -5,10 +5,17 @@ namespace TextGame.Entities
         private Item() { }
 
         public string Name { get; private set; }
+        public bool IsKnown { get; private set; } = false;
 
-        public Item Named(string name) 
+        public static Item Named(string name) 
         {
             return new Item { Name = name };
+        }
+
+        public Item IsHidden()
+        {
+            IsKnown = false;
+            return this;
         }
     }
 }

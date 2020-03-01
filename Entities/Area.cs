@@ -1,24 +1,28 @@
+using System;
 using System.Collections.Generic;
 
 namespace TextGame.Entities 
 {
-    public class Area 
+    public class Area : IHaveItems
     {
         private Area() { }
 
         public string Name { get; private set; }
-        public List<string> Items { get; } = new List<string>();
+        public List<Item> Items { get; } = new List<Item>();
         public List<Portal> Portals { get; } = new List<Portal>();
 
         public static Area Named(string name) => new Area { Name = name };
-    }
 
-    public static class AreaExtensions 
-    {
-        public static Area WithItem(this Area area, string item)
+        public Area WithItem(Item item)
         {
-            area.Items.Add(item);
-            return area;
+            Items.Add(item);
+            return this;
+        }
+
+        public Area WithItems(Func<IEnumerable<Item>> item)
+        {
+            Items.AddRange(item());
+            return this;
         }
     }
 }
