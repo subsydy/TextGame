@@ -23,5 +23,10 @@ namespace TextGame.Flow
         {
             return AndThen;
         }
+
+        internal static object Play(string message, object andThen)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -50,7 +50,7 @@ namespace TextGame
                     PrintHelpText();
                     continue;
                 }
-                if(input.Trim() == "hint") {
+                if(input.Trim() == "hint?") {
                     var hasHint = step as IHaveAHint;
                     HandleHints(hasHint);
                     continue;
