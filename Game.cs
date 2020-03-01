@@ -33,11 +33,7 @@ namespace TextGame
         }
 
         static ITakeAFrame EvaluateFrame(ITakeAFrame step) {
-            if(step == null) {
-                var nextStep = new Campaign().Play(_character);
-                return HandleStep(nextStep);
-            }
-
+            if(step == null) step = new Campaign().Play(_character);
             return HandleStep(step);
         }
 
@@ -57,7 +53,6 @@ namespace TextGame
                 }
                 validInput = step.IsValid(input);
             }
-            WriteLine("\n");
             return input;
         }
 
@@ -74,7 +69,10 @@ namespace TextGame
         }
 
         public static ITakeAFrame HandleStep(ITakeAFrame step) {
-            WriteLine(step.Message, ConsoleColor.Yellow);
+            if(!string.IsNullOrEmpty(step.Message)) 
+            {
+                WriteLine(step.Message, ConsoleColor.Yellow);
+            }
 
             var takesInput = step as ITakeInput;
             if (takesInput != null) return HandleStep(takesInput);
