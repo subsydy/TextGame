@@ -1,14 +1,10 @@
 namespace TextGame.Entities.Common
 {
-    public class Portal : IEntity
+    public class Portal : Entity
     {
         private Portal() { }
 
-        // IEntity
-        public string Name { get; private set; }
-        public bool IsKnown { get; set; }
-
-        public IEntity ToArea {get; private set;}
+        public Entity ToArea {get; private set;}
 
         public static Portal To(Area toArea)
         {

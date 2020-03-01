@@ -1,11 +1,8 @@
 namespace TextGame.Entities.Common
 {
-    public class Item : IEntity
+    public class Item : Entity
     {
         private Item() { }
-
-        public string Name { get; private set; }
-        public bool IsKnown { get; set; }
 
         public static Item Named(string name) 
         {

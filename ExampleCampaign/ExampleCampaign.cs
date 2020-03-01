@@ -3,9 +3,9 @@ using TextGame.Entities.Common;
 using TextGame.Flow;
 using TextGame.Flow.Common;
 
-namespace TextGame.Campaigns 
+namespace TextGame.ExampleCampaign 
 {
-    public class Campaign : ICampaign
+    public class ExampleCampaign : ICampaign
     {
         public ITakeAFrame Play(Character character)
         {
@@ -30,26 +30,6 @@ Your name is {character.Name}... you don't remember how you got here.";
         public ITakeAFrame FirstQuestion() 
         {
             return Question.Continue(prompt: "What now?", hint: "It doesn't look good around here.");
-        }
-
-        public Question EvaluateAction(Character character, CharacterAction action, object subject) 
-        {
-            // Check if subject has handling for the action.
-            var subjectType = subject.GetType(); 
-            if(subjectType == typeof(Area)) 
-            {
-                throw new System.NotImplementedException();
-            }
-            if(subjectType == typeof(Item)) 
-            {
-                throw new System.NotImplementedException();
-            }
-            if(subjectType == typeof(Portal)) 
-            {
-                throw new System.NotImplementedException();
-            }
-
-            throw new System.NotImplementedException();
         }
     }
 }

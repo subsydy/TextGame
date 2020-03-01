@@ -1,6 +1,6 @@
 ﻿using System;
 using TextGame.Flow;
-using TextGame.Campaigns;
+using TextGame.ExampleCampaign;
 
 namespace TextGame
 {
@@ -17,7 +17,7 @@ namespace TextGame
                 ITakeAFrame frame = null;
                 while(_character != null)
                 {
-                    frame = Frame.Do(() => frame.HandleFrame(_character, () => new Campaign()));
+                    frame = Frame.Do(() => frame.HandleFrame(_character, () => new ExampleCampaign.ExampleCampaign()));
                     if (frame == null) {
                         _character = null;
                     }
@@ -29,6 +29,7 @@ namespace TextGame
         {
             Console.WriteLine("Help text coming soon...", ConsoleColor.Green);
         }
+        
         public static string WritePrompt(string prompt){
             WriteLine(prompt, ConsoleColor.Green);
             Console.Write(" > ");
@@ -41,13 +42,5 @@ namespace TextGame
             Console.WriteLine(text);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
-    }
-
-    public enum CharacterAction 
-    {
-        Examine,
-        Search,
-        Grab,
-        Go
     }
 }
