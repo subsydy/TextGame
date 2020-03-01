@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using TextGame.Entities;
 using TextGame.Entities.Common;
 using TextGame.Flow;
+using TextGame.Flow.Common;
 
 namespace TextGame {
     public class Character

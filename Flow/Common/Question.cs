@@ -1,6 +1,6 @@
 using System;
 
-namespace TextGame.Flow
+namespace TextGame.Flow.Common
 {
     public class Question : ITakeInput, ITakeAFrame 
     {
