@@ -1,3 +1,4 @@
+using System;
 using TextGame.Entities;
 using TextGame.Entities.Common;
 using TextGame.Flow;
@@ -17,7 +18,7 @@ Your name is {character.Name}... you don't remember how you got here.";
 
             var startingLocation = Area.Named("a small cell")
                 .ContainingEntities(
-                    Item.Named("body"),
+                    Item.Named("body").AddHandler(Command.Examine, CheckTheBody),
                     Portal.To(Area.Named("guard room"))
                 ); 
 
@@ -27,9 +28,21 @@ Your name is {character.Name}... you don't remember how you got here.";
             return firstStep;
         }
 
+        private ITakeAFrame CheckTheBody(ITakeAFrame frame, Character character)
+        {
+            var message = "The man is curled in a ball facing the corner. His shirt is torn and bloody. Shackles are affixed to his ankles. He chest rises and falls laboriously.";
+            Game.WriteLine(message);
+            return frame;
+        }
+
         public ITakeAFrame FirstQuestion() 
         {
-            return Question.Continue(prompt: "What now?", hint: "It doesn't look good around here.");
+            return Question.Continue(prompt: "What now?", hint: "It doesn't look good around here.", decisionTree: StartHere);
+        }
+
+        private ITakeAFrame StartHere(Character character, string input)
+        {
+            
         }
     }
 }
