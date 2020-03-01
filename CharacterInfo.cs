@@ -8,12 +8,12 @@ namespace TextGame {
     {
         public string Name { get; private set; }
         public List<string> Debuffs { get; } = new List<string>();
-        public Area Location { get; set; }
+        public Area Location { get; private set; }
 
         public static CharacterInfo GatherCharacterInfo()
         {
             Func<string, bool> emptyTest = str => !string.IsNullOrEmpty(str);
-            var nameStep = StepInfo.Continue(prompt: "What is your name?", validate: emptyTest);
+            var nameStep = Question.Continue(prompt: "What is your name?", validate: emptyTest);
             (var step, var name) = Game.HandleStep(nameStep, arg => arg);
             
             return new CharacterInfo
@@ -22,9 +22,16 @@ namespace TextGame {
             };
         }
 
+        internal void SetLocation(Area location) 
+        {
+            Game.WriteLine($"You are now in a new location: {location.Name}.", ConsoleColor.DarkGreen);
+            Location = location;
+        }
+
         internal void AddDebuff(string v)
         {
-            Debuffs.Add("head wound");
+            Game.WriteLine($"You have a new debuff: {v}.", ConsoleColor.Red);
+            Debuffs.Add(v);
         }
     }
 }

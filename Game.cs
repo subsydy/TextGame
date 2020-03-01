@@ -14,48 +14,34 @@ namespace TextGame
                 Frame.Do(TitleScreen.Play);
                 _character = Frame.Do(CharacterInfo.GatherCharacterInfo);
 
-                StepInfo step = null;
+                ITakeAFrame frame = null;
                 while(_character != null)
                 {
-                    step = Frame.Do(() => EvaluateStep(step));
-                    if (step.Died) {
+                    frame = Frame.Do(() => EvaluateFrame(frame));
+                    if (frame == null) {
                         _character = null;
                     }
                 }
             }
         }
 
-        private static void WriteLine(string text, ConsoleColor color = ConsoleColor.Gray) 
+        public static void WriteLine(string text, ConsoleColor color = ConsoleColor.Gray) 
         {
             Console.ForegroundColor = color;
             Console.WriteLine(text);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
-        static StepInfo EvaluateStep(StepInfo step) {
+        static ITakeAFrame EvaluateFrame(ITakeAFrame step) {
             if(step == null) {
                 var nextStep = new Campaign().Play(_character);
                 return HandleStep(nextStep);
             }
 
-            if(!string.IsNullOrEmpty(step.Message)) 
-            {
-                Console.WriteLine($"{step.Message}");
-            }
-
-            if(step.Died) 
-            {
-                _character = null;
-                return null;
-            }
-
             return HandleStep(step);
         }
 
-        public static string PromptUntilValidInput(StepInfo step) {
-            
-            WriteLine($"{step.Message}\n", ConsoleColor.Yellow);
-
+        public static string PromptUntilValidInput(ITakeInput step) {
             string input = null;
             bool validInput = false;
             while(string.IsNullOrEmpty(input) || !validInput) {
@@ -65,14 +51,21 @@ namespace TextGame
                     continue;
                 }
                 if(input.Trim() == "hint") {
-                    WriteLine(string.IsNullOrEmpty(step.Hint) ? "There are no clues here." : step.Hint,
-                        ConsoleColor.Green);
+                    var hasHint = step as IHaveAHint;
+                    HandleHints(hasHint);
                     continue;
                 }
-                validInput = step.ValidateInput(input);
+                validInput = step.IsValid(input);
             }
             WriteLine("\n");
             return input;
+        }
+
+        public static void HandleHints(IHaveAHint hasHint) 
+        {
+            if(hasHint == null) return;
+            WriteLine(hasHint?.Hint == null ? "There are no clues here." : hasHint.Hint,
+                ConsoleColor.Green);
         }
 
         private static void PrintHelpText()
@@ -80,15 +73,24 @@ namespace TextGame
             Console.WriteLine("Help text coming soon...", ConsoleColor.Green);
         }
 
-        public static StepInfo HandleStep(StepInfo step) {
+        public static ITakeAFrame HandleStep(ITakeAFrame step) {
+            WriteLine(step.Message, ConsoleColor.Yellow);
+
+            var takesInput = step as ITakeInput;
+            if (takesInput != null) return HandleStep(takesInput);
+
+            return step.Next(_character, null);
+        }
+
+        public static ITakeAFrame HandleStep(ITakeInput step) {
             var response = PromptUntilValidInput(step);
-            var nextStep = step.NextStep(response);
+            var nextStep = step.Next(_character, response);
             return nextStep;
         }
 
-        public static Tuple<StepInfo, TOutput> HandleStep<TOutput>(StepInfo step, Func<string, TOutput> transform) {
+        public static Tuple<ITakeAFrame, TOutput> HandleStep<TOutput>(ITakeInput step, Func<string, TOutput> transform) {
             var response = PromptUntilValidInput(step);
-            var nextStep = step.NextStep(response);
+            var nextStep = step.Next(_character, response);
             var output   = transform(response);
             return Tuple.Create(nextStep, output);
         }
