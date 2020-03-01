@@ -5,7 +5,7 @@ namespace TextGame.Flow
     public interface ITakeAFrame 
     {
         string Message { get; }
-        ITakeAFrame Next(CharacterInfo character, string input);
+        ITakeAFrame Next(Character character, string input);
     }
 
     public static class ITakeAFrameExtensions 
@@ -18,13 +18,13 @@ namespace TextGame.Flow
             }
         }
 
-        public static ITakeAFrame HandleFrame(this ITakeAFrame step, CharacterInfo character, Func<ICampaign> bootstrap) 
+        public static ITakeAFrame HandleFrame(this ITakeAFrame step, Character character, Func<ICampaign> bootstrap) 
         {
             if(step == null) step = bootstrap().Play(character);
             return step.HandleFrame(character);
         }
 
-        public static ITakeAFrame HandleFrame(this ITakeAFrame step, CharacterInfo character) 
+        public static ITakeAFrame HandleFrame(this ITakeAFrame step, Character character) 
         {
             step.WriteMessage();
             var takesInput = step as ITakeInput;

@@ -1,22 +1,23 @@
 using System;
 using System.Collections.Generic;
 using TextGame.Entities;
+using TextGame.Entities.Common;
 using TextGame.Flow;
 
 namespace TextGame {
-    public class CharacterInfo
+    public class Character
     {
         public string Name { get; private set; }
         public List<string> Debuffs { get; } = new List<string>();
         public Area Location { get; private set; }
 
-        public static CharacterInfo GatherCharacterInfo()
+        public static Character GatherCharacter()
         {
             Func<string, bool> emptyTest = str => !string.IsNullOrEmpty(str);
             var nameStep = Question.Continue(prompt: "What is your name?", validate: emptyTest);
             (var step, var name) = nameStep.HandleStep(arg => arg);
             
-            return new CharacterInfo { Name = name };
+            return new Character { Name = name };
         }
 
         internal void SetLocation(Area location) 

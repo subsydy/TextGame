@@ -2,6 +2,6 @@ namespace TextGame.Flow
 {
     public interface ICampaign 
     {
-        ITakeAFrame Play(CharacterInfo character);
+        ITakeAFrame Play(Character character);
     }
 }

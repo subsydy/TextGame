@@ -10,13 +10,13 @@ namespace TextGame.Flow
 
     public static class ITakeInputExtensions
     {
-        public static ITakeAFrame HandleStep(this ITakeInput step, CharacterInfo character) {
+        public static ITakeAFrame HandleStep(this ITakeInput step, Character character) {
             var response = step.PromptUntilValidInput();
             var nextStep = step.Next(character, response);
             return nextStep;
         }
 
-        public static Tuple<ITakeAFrame, TOutput> HandleStep<TOutput>(this ITakeInput step, Func<string, TOutput> transformInput, CharacterInfo character = null) {
+        public static Tuple<ITakeAFrame, TOutput> HandleStep<TOutput>(this ITakeInput step, Func<string, TOutput> transformInput, Character character = null) {
             var response = step.PromptUntilValidInput();
             var nextStep = step.Next(character, response);
             var output   = transformInput(response);

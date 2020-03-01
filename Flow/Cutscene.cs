@@ -18,7 +18,7 @@ namespace TextGame.Flow
              };
         }
 
-        public ITakeAFrame Next(CharacterInfo character, string input)
+        public ITakeAFrame Next(Character character, string input)
         {
             return AndThen;
         }

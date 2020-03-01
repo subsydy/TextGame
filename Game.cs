@@ -6,13 +6,13 @@ namespace TextGame
 {
     class Game
     {
-        private static CharacterInfo _character;
+        private static Character _character;
 
         static void Main(string[] args)
         {
             while(true) {
                 Frame.Do(TitleScreen.Play);
-                _character = Frame.Do(CharacterInfo.GatherCharacterInfo);
+                _character = Frame.Do(Character.GatherCharacter);
 
                 ITakeAFrame frame = null;
                 while(_character != null)

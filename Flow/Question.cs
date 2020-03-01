@@ -7,10 +7,10 @@ namespace TextGame.Flow
         public string Prompt { get; protected set; }
         public string Message { get; protected set; }
 
-        protected Func<CharacterInfo, string, ITakeAFrame> DecisionTree { get; set; }
+        protected Func<Character, string, ITakeAFrame> DecisionTree { get; set; }
 
-        public ITakeAFrame Next(CharacterInfo characterInfo, string input) {
-            return DecisionTree?.Invoke(characterInfo, input)
+        public ITakeAFrame Next(Character Character, string input) {
+            return DecisionTree?.Invoke(Character, input)
                 ?? Cutscene.Play("Rock falls, you die.");
         }
 
@@ -19,7 +19,7 @@ namespace TextGame.Flow
             return Validate?.Invoke(input) ?? true;
         }
 
-        public static Question Continue(string prompt, string message = null, Func<string, bool> validate = null, Func<CharacterInfo, string, ITakeAFrame> decisionTree = null) {
+        public static Question Continue(string prompt, string message = null, Func<string, bool> validate = null, Func<Character, string, ITakeAFrame> decisionTree = null) {
             return new Question
             { 
                 Prompt       = prompt, 
@@ -29,7 +29,7 @@ namespace TextGame.Flow
             };
         }
 
-        public static QuestionWithHint Continue(string prompt, string hint, string message = null,  Func<string, bool> validate = null, Func<CharacterInfo, string, ITakeAFrame> decisionTree = null) {
+        public static QuestionWithHint Continue(string prompt, string hint, string message = null,  Func<string, bool> validate = null, Func<Character, string, ITakeAFrame> decisionTree = null) {
             return new QuestionWithHint(hint)
             { 
                 Prompt       = prompt, 
