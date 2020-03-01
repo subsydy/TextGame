@@ -1,3 +1,4 @@
+using TextGame.Entities;
 using TextGame.Entities.Common;
 using TextGame.Flow;
 using TextGame.Flow.Common;
@@ -14,7 +15,11 @@ Your name is {character.Name}... you don't remember how you got here.";
 
             var firstStep = Cutscene.Play(message: introMessage, andThen: FirstQuestion());
 
-            var startingLocation = Area.Named("a small cell").WithEntity(Item.Named("body")); 
+            var startingLocation = Area.Named("a small cell")
+                .ContainingEntities(
+                    Item.Named("body"),
+                    Portal.To(Area.Named("guard room"))
+                ); 
 
             character.AddDebuff("head wound");
             character.SetLocation(startingLocation);

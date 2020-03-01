@@ -2,31 +2,22 @@ namespace TextGame.Entities.Common
 {
     public class Portal : IEntity
     {
-        private Area _area1;
-        private Area _area2;
-
         private Portal() { }
 
+        // IEntity
         public string Name { get; private set; }
         public bool IsKnown { get; set; }
 
-        public static Portal FromTo(Area from, Area to)
+        public IEntity ToArea {get; private set;}
+
+        public static Portal To(Area toArea)
         {
             return new Portal 
             { 
-                _area1 = from,
-                _area2 = to,
-                IsKnown = true
+                Name    = $"portal to {toArea.Name}",
+                ToArea  = toArea,
+                IsKnown = true,
             };
-        }
-
-        public Area OtherSide(Area thisOne) {
-            if(_area1 != thisOne && _area2 != thisOne) {
-                throw new System.Exception("This area isn't attached to the portal.");
-            }
-
-            if(_area1 != thisOne) return _area1;
-            return _area2;
         }
     }
 }

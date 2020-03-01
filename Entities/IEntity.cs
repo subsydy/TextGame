@@ -8,7 +8,7 @@ namespace TextGame.Entities
 
     public static class IEntityExtensions 
     {
-        public static IEntity IsHidden(this IEntity entity) 
+        public static T AsHidden<T>(this T entity) where T : IEntity
         {
             entity.IsKnown = true;
             return entity;
