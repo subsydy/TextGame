@@ -37,12 +37,12 @@ Your name is {character.Name}... you don't remember how you got here.";
 
         public ITakeAFrame FirstQuestion() 
         {
-            return Question.Continue(prompt: "What now?", hint: "It doesn't look good around here.", decisionTree: StartHere);
+            return Question.Continue(prompt: "What now?", hint: "It doesn't look good around here.");//, decisionTree: StartHere);
         }
 
-        private ITakeAFrame StartHere(Character character, string input)
-        {
+        // private ITakeAFrame StartHere(Character character, string input)
+        // {
             
-        }
+        // }
     }
 }
